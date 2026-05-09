@@ -1,24 +1,74 @@
-# OCS Room Booking System
+# OCS Room Booking Management Portal
+A Django-based web application developed for the Office of Career Services (OCS) to efficiently manage, search, and reserve campus interview and assessment rooms.
 
-A robust Django-based web application designed for the Office of Career Services (OCS) to manage, search, and book interview and assessment rooms efficiently.
+The system provides a responsive user experience, intelligent room availability checks, conflict prevention, and a powerful custom admin dashboard for staff management.
 
-## Features
-* **Smart Availability Search:** Users can search for rooms based on date, time, and participant capacity.
-* **Conflict Prevention:** The system automatically prevents double-booking using database-level locking and time-conflict algorithms.
-* **Role-Based Access:** Standard users can search and book rooms, while Staff/Admins have access to a custom dashboard to oversee all activity.
-* **Modern UI:** Responsive, gradient-themed interface built with Bootstrap 5.
+---
 
-## Prerequisites
-To run this project, you will need to have the following installed on your machine:
-* Python 3.8+
-* Git
+# Features
 
-## Installation & Setup Instructions
+## Smart Availability Search
+- Search rooms dynamically based on:
+  - Date
+  - Time slot
+  - Participant capacity
 
-Follow these steps to get the project running on your local machine.
+## Conflict Prevention
+- Prevents double-booking automatically
+- Uses:
+  - Database-level locking
+  - Time-overlap validation algorithms
 
-### 1. Clone the Repository
-Open your terminal and clone this repository:
+## Role-Based Access
+
+### Standard Users
+- Search available rooms
+- Create reservations
+- View live room schedules
+
+### Staff / Admin
+- Access custom admin dashboard
+- Manage:
+  - Rooms
+  - Users
+  - Reservations
+- Monitor all booking activity
+
+## 🎨 Modern UI
+- Built using:
+  - Bootstrap 5
+  - Custom CSS
+
+---
+
+# Tech Stack
+
+- **Backend:** Django
+- **Frontend:** HTML, CSS, Bootstrap 5
+- **Database:** SQLite3
+- **Language:** Python 3
+
+---
+
+# Prerequisites
+
+Before running this project, ensure you have the following installed:
+
+- Python 3.8+
+- Git
+
+---
+
+# Installation & Setup
+
+Follow these steps to run the project locally.
+
+---
+
+## 1️.Clone the Repository
+
+Open your terminal and run:
+
 ```bash
-git clone [https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git)
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
 cd YOUR_REPO_NAME
