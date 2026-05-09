@@ -1,0 +1,703 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block branding %}
+
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        Office of Career Services
+    </a>
+</h1>
+
+{% endblock %}
+
+{% block extrastyle %}
+
+{{ block.super }}
+
+<style>
+    :root {
+
+        --primary-orange: #f97316;
+        --deep-orange: #ea580c;
+        --accent-red: #dc2626;
+
+        --bg-gradient-1: #111827;
+        --bg-gradient-2: #0f172a;
+        --bg-gradient-3: #7c2d12;
+
+        --sidebar-bg: rgba(2, 6, 23, 0.94);
+
+        --card-bg: rgba(31, 41, 55, 0.90);
+
+        --glass-bg: rgba(255, 255, 255, 0.05);
+
+        --text-primary: #f9fafb;
+        --text-secondary: #d1d5db;
+
+        --border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* =======================================================
+       GLOBAL
+    ======================================================= */
+
+    body {
+
+        background:
+            linear-gradient(135deg,
+                var(--bg-gradient-1),
+                var(--bg-gradient-2),
+                var(--bg-gradient-3)) !important;
+
+        color: var(--text-primary) !important;
+
+        font-family:
+            "Segoe UI",
+            Tahoma,
+            Geneva,
+            Verdana,
+            sans-serif;
+    }
+
+    /* =======================================================
+       HEADER
+    ======================================================= */
+
+    #header {
+
+        height: 72px;
+
+        background:
+            rgba(17, 24, 39, 0.92) !important;
+
+        backdrop-filter: blur(18px);
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.06);
+
+        display: flex;
+        align-items: center;
+
+        padding:
+            0 28px !important;
+
+        box-shadow:
+            0 4px 18px rgba(0, 0, 0, 0.18);
+    }
+
+    /* ===== BRAND ===== */
+
+    #site-name {
+
+        margin: 0 !important;
+
+        font-size: 2rem;
+
+        font-weight: 800;
+    }
+
+    #site-name a {
+
+        color: white !important;
+
+        text-decoration: none !important;
+
+        letter-spacing: 0.3px;
+    }
+
+    #site-name a:hover {
+
+        color:
+            var(--primary-orange) !important;
+    }
+
+    /* ===== USER TOOLS ===== */
+
+    #user-tools,
+    #user-tools a {
+
+        color:
+            var(--text-secondary) !important;
+
+        font-size: 0.9rem;
+
+        font-weight: 600;
+    }
+
+    #user-tools a:hover {
+
+        color:
+            var(--primary-orange) !important;
+    }
+
+    /* ===== REMOVE MOON ICON ===== */
+
+    .theme-toggle,
+    .theme-toggle-wrapper,
+    .dark-mode-toggle,
+    #jazzy-theme-toggle,
+    button.theme-toggle,
+    i.fa-moon,
+    svg.fa-moon,
+    i.fa-circle-half-stroke,
+    svg.fa-circle-half-stroke {
+
+        display: none !important;
+    }
+
+    /* =======================================================
+       BREADCRUMBS
+    ======================================================= */
+
+    div.breadcrumbs {
+
+        background:
+            rgba(255, 255, 255, 0.04) !important;
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.06);
+
+        padding:
+            16px 28px !important;
+
+        color:
+            var(--text-secondary) !important;
+
+        backdrop-filter: blur(12px);
+    }
+
+    div.breadcrumbs a {
+
+        color:
+            var(--primary-orange) !important;
+
+        font-weight: 700;
+    }
+
+    /* =======================================================
+   CLEAN MODERN SIDEBAR
+======================================================= */
+
+    #nav-sidebar {
+
+        width: 280px !important;
+
+        min-width: 280px !important;
+
+        background:
+            rgba(2, 6, 23, 0.96) !important;
+
+        border-right:
+            1px solid rgba(255, 255, 255, 0.05);
+
+        padding:
+            18px 14px !important;
+
+        overflow-y: auto;
+
+        backdrop-filter: blur(18px);
+    }
+
+    /* ===== SEARCH ===== */
+
+    #nav-filter {
+
+        width: 100%;
+
+        background:
+            rgba(255, 255, 255, 0.04) !important;
+
+        border:
+            1px solid rgba(255, 255, 255, 0.06) !important;
+
+        border-radius: 14px !important;
+
+        color: white !important;
+
+        padding:
+            12px 16px !important;
+
+        margin-bottom: 24px !important;
+    }
+
+    #nav-filter::placeholder {
+
+        color:
+            #9ca3af !important;
+    }
+
+    /* ===== REMOVE TABLE LAYOUT ===== */
+
+    #nav-sidebar table,
+    #nav-sidebar tbody,
+    #nav-sidebar tr {
+
+        display: block !important;
+
+        width: 100% !important;
+
+        background: transparent !important;
+
+        border: none !important;
+    }
+
+    /* ===== SIDEBAR SECTIONS ===== */
+
+    #nav-sidebar .module {
+
+        background:
+            rgba(255, 255, 255, 0.02) !important;
+
+        border:
+            1px solid rgba(255, 255, 255, 0.04) !important;
+
+        border-radius: 20px !important;
+
+        padding:
+            14px !important;
+
+        margin-bottom: 22px !important;
+
+        box-shadow: none !important;
+    }
+
+    /* ===== SECTION TITLES ===== */
+
+    #nav-sidebar caption,
+    #nav-sidebar h2 {
+
+        display: block !important;
+
+        width: 100% !important;
+
+        background: transparent !important;
+
+        color:
+            #9ca3af !important;
+
+        font-size: 0.76rem !important;
+
+        font-weight: 700 !important;
+
+        text-transform: uppercase;
+
+        letter-spacing: 1px;
+
+        padding:
+            4px 6px 14px !important;
+
+        border: none !important;
+    }
+
+    /* ===== EACH ITEM ===== */
+
+    #nav-sidebar tr {
+
+        margin-bottom: 10px !important;
+    }
+
+    /* ===== LINKS ===== */
+
+    #nav-sidebar th,
+    #nav-sidebar td {
+
+        display: block !important;
+
+        width: 100% !important;
+
+        padding: 0 !important;
+
+        border: none !important;
+    }
+
+    /* ===== MAIN LINK ===== */
+
+    #nav-sidebar th a {
+
+        display: flex !important;
+
+        align-items: center;
+
+        width: 100%;
+
+        min-height: 48px;
+
+        padding:
+            12px 14px !important;
+
+        border-radius: 14px;
+
+        color:
+            #d1d5db !important;
+
+        font-size: 0.96rem !important;
+
+        font-weight: 600 !important;
+
+        text-decoration: none !important;
+
+        transition:
+            background 0.25s ease,
+            transform 0.25s ease;
+    }
+
+    /* ===== ADD BUTTON ===== */
+
+    #nav-sidebar td a {
+
+        display: inline-flex !important;
+
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 6px !important;
+
+        padding:
+            8px 12px !important;
+
+        border-radius: 10px;
+
+        background:
+            rgba(249, 115, 22, 0.12);
+
+        color:
+            #fb923c !important;
+
+        font-size: 0.82rem !important;
+
+        font-weight: 700 !important;
+
+        width: auto !important;
+    }
+
+    /* ===== HOVER ===== */
+
+    #nav-sidebar th a:hover {
+
+        background:
+            rgba(255, 255, 255, 0.05) !important;
+
+        color:
+            white !important;
+
+        transform:
+            translateX(2px);
+    }
+
+    #nav-sidebar td a:hover {
+
+        background:
+            rgba(249, 115, 22, 0.18) !important;
+
+        color:
+            white !important;
+    }
+
+    /* ===== ACTIVE ===== */
+
+    #nav-sidebar .current-model th a {
+
+        background:
+            linear-gradient(to right,
+                rgba(249, 115, 22, 0.18),
+                rgba(234, 88, 12, 0.18)) !important;
+
+        border:
+            1px solid rgba(249, 115, 22, 0.16);
+
+        color:
+            white !important;
+    }
+
+    /* ===== SCROLLBAR ===== */
+
+    #nav-sidebar::-webkit-scrollbar {
+
+        width: 6px;
+    }
+
+    #nav-sidebar::-webkit-scrollbar-thumb {
+
+        background:
+            rgba(255, 255, 255, 0.08);
+
+        border-radius: 999px;
+    }
+
+    /* =======================================================
+       CONTENT
+    ======================================================= */
+
+    #content {
+
+        padding:
+            28px !important;
+
+        max-width: 100% !important;
+    }
+
+    /* =======================================================
+       CARDS / MODULES
+    ======================================================= */
+
+    .dashboard .module,
+    .module,
+    .results,
+    #changelist {
+
+        background:
+            rgba(31, 41, 55, 0.88) !important;
+
+        border:
+            1px solid rgba(255, 255, 255, 0.08) !important;
+
+        border-radius: 22px !important;
+
+        backdrop-filter: blur(16px);
+
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.24);
+
+        overflow: hidden;
+    }
+
+    /* =======================================================
+       TABLES
+    ======================================================= */
+
+    table {
+
+        background: transparent !important;
+    }
+
+    thead th {
+
+        background:
+            linear-gradient(to right,
+                var(--primary-orange),
+                var(--deep-orange)) !important;
+
+        color:
+            white !important;
+
+        border: none !important;
+
+        padding:
+            16px !important;
+
+        font-size: 0.92rem !important;
+
+        font-weight: 700 !important;
+    }
+
+    tbody tr {
+
+        background:
+            rgba(31, 41, 55, 0.88) !important;
+    }
+
+    tbody tr:hover {
+
+        background:
+            rgba(55, 65, 81, 0.92) !important;
+    }
+
+    /* =======================================================
+       TABLE TEXT FIX
+    ======================================================= */
+
+    #result_list td,
+    #result_list td a,
+    .results tbody td,
+    .results tbody td a {
+
+        color:
+            #f3f4f6 !important;
+
+        font-weight: 500 !important;
+    }
+
+    /* ===== TABLE HEADERS ===== */
+
+    #result_list thead th,
+    #result_list thead th a {
+
+        color:
+            white !important;
+
+        font-weight: 700 !important;
+    }
+
+    /* ===== ROW HOVER ===== */
+
+    #result_list tbody tr:hover td,
+    #result_list tbody tr:hover td a {
+
+        color:
+            white !important;
+    }
+
+    td {
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.05) !important;
+
+        padding:
+            15px !important;
+    }
+
+    /* =======================================================
+       LINKS
+    ======================================================= */
+
+    a {
+
+        color:
+            #fb923c !important;
+
+        text-decoration: none !important;
+    }
+
+    a:hover {
+
+        color:
+            white !important;
+    }
+
+    /* =======================================================
+       BUTTONS
+    ======================================================= */
+
+    .button,
+    input[type=submit],
+    input[type=button],
+    .submit-row input,
+    .object-tools a {
+
+        background:
+            linear-gradient(to right,
+                var(--primary-orange),
+                var(--deep-orange)) !important;
+
+        border: none !important;
+
+        color:
+            white !important;
+
+        border-radius: 12px !important;
+
+        padding:
+            10px 18px !important;
+
+        font-weight: 700 !important;
+
+        box-shadow:
+            0 6px 18px rgba(249, 115, 22, 0.24);
+    }
+
+    .button:hover,
+    input[type=submit]:hover,
+    input[type=button]:hover,
+    .submit-row input:hover,
+    .object-tools a:hover {
+
+        transform:
+            translateY(-2px);
+    }
+
+    /* =======================================================
+       INPUTS
+    ======================================================= */
+
+    input,
+    textarea,
+    select {
+
+        background:
+            rgba(17, 24, 39, 0.92) !important;
+
+        color:
+            white !important;
+
+        border:
+            1px solid rgba(255, 255, 255, 0.08) !important;
+
+        border-radius: 12px !important;
+
+        padding:
+            10px 14px !important;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+
+        border-color:
+            var(--primary-orange) !important;
+
+        box-shadow:
+            0 0 0 4px rgba(249, 115, 22, 0.14);
+
+        outline: none !important;
+    }
+
+    /* =======================================================
+       PAGINATION
+    ======================================================= */
+
+    .paginator {
+
+        color:
+            var(--text-secondary) !important;
+
+        margin-top: 22px !important;
+    }
+
+    .paginator a {
+
+        background:
+            rgba(255, 255, 255, 0.05);
+
+        padding:
+            8px 14px;
+
+        border-radius: 10px;
+
+        margin:
+            0 3px;
+    }
+
+    /* =======================================================
+       RESPONSIVE
+    ======================================================= */
+
+    @media (max-width: 768px) {
+
+        #header {
+
+            padding:
+                0 18px !important;
+        }
+
+        #site-name {
+
+            font-size: 1.3rem;
+        }
+
+        #content {
+
+            padding:
+                18px !important;
+        }
+
+        #nav-sidebar {
+
+            width: 100% !important;
+
+            min-width: 100% !important;
+        }
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,155 @@
+/* ===== GLOBAL BACKGROUND ===== */
+
+.content-wrapper,
+.content,
+body {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c,
+            #dc2626
+        ) !important;
+
+    background-attachment: fixed !important;
+}
+
+/* ===== NAVBAR ===== */
+
+.main-header.navbar {
+
+    background:
+        rgba(255,255,255,0.08) !important;
+
+    backdrop-filter: blur(14px);
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== SIDEBAR ===== */
+
+.main-sidebar {
+
+    background:
+        rgba(17,24,39,0.92) !important;
+
+    backdrop-filter: blur(18px);
+
+    border-right:
+        1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== BRAND ===== */
+
+.brand-link {
+
+    background:
+        rgba(255,255,255,0.03) !important;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.06);
+}
+
+.brand-text {
+
+    color: #ffffff !important;
+
+    font-weight: 700;
+}
+
+/* ===== CONTENT CARDS ===== */
+
+.card {
+
+    border-radius: 18px !important;
+
+    background:
+        rgba(255,255,255,0.92) !important;
+
+    backdrop-filter: blur(16px);
+
+    border:
+        1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.18) !important;
+}
+
+/* ===== DARK MODE CARDS ===== */
+
+.dark-mode .card {
+
+    background:
+        rgba(31,41,55,0.92) !important;
+
+    color: #f9fafb !important;
+}
+
+/* ===== HEADINGS ===== */
+
+h1,
+h2,
+h3,
+.card-title {
+
+    font-weight: 700 !important;
+}
+
+/* ===== BUTTONS ===== */
+
+.btn-primary,
+.btn-success {
+
+    background:
+        linear-gradient(
+            to right,
+            #f97316,
+            #ea580c
+        ) !important;
+
+    border: none !important;
+
+    border-radius: 10px !important;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 18px rgba(249,115,22,0.3);
+}
+
+/* ===== TABLES ===== */
+
+.table {
+
+    border-radius: 14px !important;
+
+    overflow: hidden;
+}
+
+/* ===== LINKS ===== */
+
+a {
+
+    color: #f97316 !important;
+}
+
+a:hover {
+
+    color: #fb923c !important;
+}
+
+/* ===== DASHBOARD MODULES ===== */
+
+.small-box,
+.info-box {
+
+    border-radius: 16px !important;
+
+    overflow: hidden;
+}

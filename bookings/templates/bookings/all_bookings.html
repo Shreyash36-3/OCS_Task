@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Schedule | OCS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">OCS Booking System</a>
+            <div>
+                <a href="/book/" class="btn btn-outline-light me-2">Book a Room</a> 
+                <a href="{% url 'custom_logout' %}" class="btn btn-danger">Log Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Live Room Schedule</h2>
+            <span class="text-muted">Showing all confirmed campus reservations</span>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-hover mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Room</th>
+                            <th>Booked By</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td><strong>{{ booking.date }}</strong></td>
+                            <td>{{ booking.start_time }} - {{ booking.end_time }}</td>
+                            <td>{{ booking.room.block_name }}-{{ booking.room.room_name }}</td>
+                            
+                            <td><span class="badge bg-secondary">{{ booking.user.username }}</span></td>
+                            
+                            <td>{{ booking.purpose }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                No rooms are currently booked.<br>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

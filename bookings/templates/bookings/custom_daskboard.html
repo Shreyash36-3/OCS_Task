@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OCS Master Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <h1 class="text-primary mb-4">OCS Control Center</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">Manage Rooms</div>
+                    <div class="card-body">
+                        <ul>
+                            {% for room in rooms %}
+                                <li>{{ room.block_name }}-{{ room.room_name }} (Cap: {{ room.seating_capacity }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-danger text-white">Recent Bookings</div>
+                    <div class="card-body">
+                        <ul>
+                            {% for booking in bookings %}
+                                <li>{{ booking.date }}: {{ booking.room.room_name }} booked by {{ booking.user.username }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

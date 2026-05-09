@@ -1,0 +1,835 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        OCS Room Booking
+    </title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        :root {
+
+            --primary-orange: #f97316;
+            --deep-orange: #ea580c;
+            --accent-red: #dc2626;
+
+            --bg-gradient-1: #111827;
+            --bg-gradient-2: #0f172a;
+            --bg-gradient-3: #7c2d12;
+
+            --header-bg: rgba(17, 24, 39, 0.92);
+
+            --card-bg: rgba(31, 41, 55, 0.92);
+
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+
+            --input-bg: rgba(17, 24, 39, 0.96);
+
+            --input-border: #374151;
+
+            --shadow-color: rgba(0, 0, 0, 0.45);
+        }
+
+        * {
+
+            margin: 0;
+            padding: 0;
+
+            box-sizing: border-box;
+
+            transition:
+                background-color 0.3s ease,
+                border-color 0.3s ease,
+                color 0.3s ease,
+                transform 0.3s ease;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--bg-gradient-1),
+                    var(--bg-gradient-2),
+                    var(--bg-gradient-3)
+                );
+
+            overflow-x: hidden;
+
+            position: relative;
+
+            color: var(--text-primary);
+        }
+
+        /* =======================================================
+           BACKGROUND EFFECTS
+        ======================================================= */
+
+        body::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            top: -180px;
+            right: -120px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(249,115,22,0.08);
+
+            filter: blur(20px);
+        }
+
+        body::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 400px;
+            height: 400px;
+
+            bottom: -150px;
+            left: -100px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(220,38,38,0.08);
+
+            filter: blur(20px);
+        }
+
+        /* =======================================================
+           HEADER
+        ======================================================= */
+
+        .official-header {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 76px;
+
+            background:
+                var(--header-bg);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.06);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding:
+                0 50px;
+
+            z-index: 1000;
+        }
+
+        .header-left {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .header-left h1 {
+
+            margin: 0;
+
+            font-size: 1.45rem;
+
+            font-weight: 800;
+
+            color: white;
+
+            letter-spacing: 0.3px;
+        }
+
+        .header-left span {
+
+            margin-top: 2px;
+
+            font-size: 0.82rem;
+
+            color:
+                var(--text-secondary);
+        }
+
+        /* =======================================================
+           HEADER BUTTONS
+        ======================================================= */
+
+        .header-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+        .schedule-btn,
+        .logout-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            padding:
+                11px 18px;
+
+            border-radius: 14px;
+
+            text-decoration: none !important;
+
+            font-weight: 700;
+
+            font-size: 0.92rem;
+
+            color: white !important;
+
+            backdrop-filter: blur(14px);
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        /* ===== SCHEDULE BUTTON ===== */
+
+        .schedule-btn {
+
+            background:
+                rgba(255,255,255,0.05);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.16);
+        }
+
+        .schedule-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                rgba(249,115,22,0.14);
+
+            border-color:
+                rgba(249,115,22,0.18);
+        }
+
+        /* ===== LOGOUT BUTTON ===== */
+
+        .logout-btn {
+
+            background:
+                linear-gradient(
+                    to right,
+                    rgba(249,115,22,0.18),
+                    rgba(234,88,12,0.24)
+                );
+
+            border:
+                1px solid rgba(249,115,22,0.16);
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,0.18);
+        }
+
+        .logout-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                linear-gradient(
+                    to right,
+                    rgba(249,115,22,0.30),
+                    rgba(234,88,12,0.34)
+                );
+
+            border-color:
+                rgba(249,115,22,0.30);
+        }
+
+        /* =======================================================
+           PAGE WRAPPER
+        ======================================================= */
+
+        .page-wrapper {
+
+            position: relative;
+
+            z-index: 2;
+
+            padding:
+                120px 20px 50px;
+
+            display: flex;
+            justify-content: center;
+        }
+
+        /* =======================================================
+           BOOKING CARD
+        ======================================================= */
+
+        .booking-card {
+
+            width: 100%;
+            max-width: 760px;
+
+            background:
+                var(--card-bg);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+
+            border-radius: 28px;
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 15px 45px var(--shadow-color);
+
+            overflow: hidden;
+        }
+
+        .booking-card-body {
+
+            padding:
+                2.8rem;
+        }
+
+        /* =======================================================
+           TITLE
+        ======================================================= */
+
+        .page-title {
+
+            text-align: center;
+
+            margin-bottom: 2.5rem;
+        }
+
+        .page-title h2 {
+
+            font-size: 2.2rem;
+
+            font-weight: 800;
+
+            color: white;
+
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+
+            color:
+                var(--text-secondary);
+
+            font-size: 0.98rem;
+        }
+
+        .page-title::after {
+
+            content: "";
+
+            display: block;
+
+            width: 80px;
+            height: 4px;
+
+            margin:
+                18px auto 0;
+
+            border-radius: 999px;
+
+            background:
+                linear-gradient(
+                    to right,
+                    var(--primary-orange),
+                    var(--accent-red)
+                );
+        }
+
+        /* =======================================================
+           ALERTS
+        ======================================================= */
+
+        .alert-custom {
+
+            border: none;
+
+            border-radius: 14px;
+
+            padding:
+                14px 18px;
+
+            font-weight: 600;
+
+            margin-bottom: 22px;
+        }
+
+        .alert-error {
+
+            background:
+                rgba(220,38,38,0.14);
+
+            color:
+                #fca5a5;
+        }
+
+        .alert-success {
+
+            background:
+                rgba(34,197,94,0.14);
+
+            color:
+                #86efac;
+        }
+
+        /* =======================================================
+           FORM
+        ======================================================= */
+
+        .form-label {
+
+            font-size: 0.92rem;
+
+            font-weight: 700;
+
+            color:
+                var(--text-secondary);
+
+            margin-bottom: 10px;
+        }
+
+        .form-control,
+        .form-select {
+
+            height: 54px;
+
+            background:
+                var(--input-bg) !important;
+
+            border:
+                1px solid var(--input-border);
+
+            border-radius: 14px;
+
+            color: white !important;
+
+            padding:
+                12px 16px;
+
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+
+            border-color:
+                var(--primary-orange);
+
+            box-shadow:
+                0 0 0 4px rgba(249,115,22,0.14);
+
+            background:
+                var(--input-bg);
+
+            color: white;
+        }
+
+        option {
+
+            background:
+                #111827;
+
+            color: white;
+        }
+
+        /* =======================================================
+           BUTTONS & ROOM LIST (NEW STYLES)
+        ======================================================= */
+
+        .btn-submit {
+
+            width: 100%;
+
+            height: 56px;
+
+            border: none;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    to right,
+                    var(--primary-orange),
+                    var(--deep-orange)
+                );
+
+            color: white;
+
+            font-size: 1rem;
+
+            font-weight: 700;
+
+            letter-spacing: 0.3px;
+
+            margin-top: 10px;
+
+            box-shadow:
+                0 10px 24px rgba(249,115,22,0.22);
+        }
+
+        .btn-submit:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                linear-gradient(
+                    to right,
+                    #fb923c,
+                    #ea580c
+                );
+        }
+
+        .btn-back {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        .room-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .room-item:hover {
+            transform: translateY(-2px);
+            border-color: rgba(249,115,22,0.4);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .room-details h4 {
+            margin: 0 0 4px 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .room-details p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .btn-book {
+            background: linear-gradient(to right, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+        }
+
+        .btn-book:hover {
+            background: linear-gradient(to right, #16a34a, #15803d);
+            transform: translateY(-1px);
+        }
+
+        /* =======================================================
+           MOBILE
+        ======================================================= */
+
+        @media (max-width: 768px) {
+
+            .official-header {
+
+                padding:
+                    0 18px;
+            }
+
+            .header-left h1 {
+
+                font-size: 1.05rem;
+            }
+
+            .header-left span {
+
+                font-size: 0.72rem;
+            }
+
+            .header-right {
+
+                gap: 8px;
+            }
+
+            .schedule-btn,
+            .logout-btn {
+
+                padding:
+                    10px 14px;
+
+                font-size: 0.82rem;
+            }
+
+            .booking-card-body {
+
+                padding:
+                    2rem;
+            }
+
+            .page-title h2 {
+
+                font-size: 1.8rem;
+            }
+
+            .room-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .btn-book {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <header class="official-header">
+
+        <div class="header-left">
+
+            <h1>
+                Office of Career Services
+            </h1>
+
+            <span>
+                Room Booking Management Portal
+            </span>
+
+        </div>
+
+        <div class="header-right">
+
+            <a
+                href="{% url 'schedule' %}"
+                class="schedule-btn"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v1H0V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2z"/>
+                </svg>
+                Live Schedule
+            </a>
+
+            <a
+                href="{% url 'custom_logout' %}"
+                class="logout-btn"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10.146 11.354a.5.5 0 0 1 0-.708L12.293 8.5H5.5a.5.5 0 0 1 0-1h6.793l-2.147-2.146a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z"/>
+                    <path fill-rule="evenodd" d="M13 14a1 1 0 0 1-1 1H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h8a1 1 0 0 1 1 1v2a.5.5 0 0 1-1 0V2H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8v-2a.5.5 0 0 1 1 0z"/>
+                </svg>
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+    <div class="container page-wrapper">
+
+        <div class="booking-card">
+
+            <div class="booking-card-body">
+
+                <div class="page-title">
+                    <h2>Book an OCS Room</h2>
+                    {% if not searched %}
+                        <p>Fill in the details below to search for available rooms.</p>
+                    {% else %}
+                        <p>Select an available room from the list below to complete your booking.</p>
+                    {% endif %}
+                </div>
+
+                {% if error %}
+                <div class="alert-custom alert-error">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                {% if success %}
+                <div class="alert-custom alert-success">
+                    {{ success }}
+                </div>
+                {% endif %}
+
+                {% if not searched %}
+
+                <form method="POST">
+
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="search">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Date</label>
+                            <input type="date" name="date" class="form-control" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Expected Participants</label>
+                            <input type="number" name="participants" class="form-control" placeholder="Enter count" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Start Time</label>
+                            <input type="time" name="start_time" class="form-control" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">End Time</label>
+                            <input type="time" name="end_time" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Booking Purpose</label>
+                            <select name="purpose" class="form-select" required>
+                                <option value="OA">Online Assessment</option>
+                                <option value="Interview">Interview</option>
+                                <option value="PPT">Pre-Placement Talk</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-submit">
+                                Search Availability
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+
+                {% else %}
+
+                <a href="?" class="btn-back">
+                    &larr; Back to Search
+                </a>
+
+                {% if available_rooms %}
+                    
+                    {% for room in available_rooms %}
+                    <div class="room-item">
+                        <div class="room-details">
+                            <h4>{{ room.block_name }} - {{ room.room_name }}</h4>
+                            <p>Capacity: {{ room.seating_capacity }}</p>
+                        </div>
+
+                        <form method="POST" style="margin: 0;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="book">
+                            
+                            <input type="hidden" name="room_id" value="{{ room.id }}">
+                            <input type="hidden" name="date" value="{{ search_date }}">
+                            <input type="hidden" name="start_time" value="{{ search_start }}">
+                            <input type="hidden" name="end_time" value="{{ search_end }}">
+                            <input type="hidden" name="purpose" value="{{ search_purpose }}">
+                            <input type="hidden" name="participants" value="{{ search_participants }}">
+                            
+                            <button type="submit" class="btn-book">Book Room</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+
+                {% else %}
+                    <div class="alert-custom alert-error" style="margin-top: 10px;">
+                        No rooms are available that match your requirements. Please try adjusting your date, time, or participant count.
+                    </div>
+                {% endif %}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

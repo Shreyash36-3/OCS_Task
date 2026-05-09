@@ -1,0 +1,451 @@
+{% extends "admin/change_list.html" %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<style>
+
+    :root {
+
+        --primary-orange: #f97316;
+        --deep-orange: #ea580c;
+        --accent-red: #dc2626;
+
+        --bg-gradient-1: #1f2937;
+        --bg-gradient-2: #111827;
+        --bg-gradient-3: #7c2d12;
+
+        --card-bg: rgba(31, 41, 55, 0.92);
+
+        --glass-bg: rgba(255,255,255,0.05);
+
+        --text-primary: #f9fafb;
+        --text-secondary: #d1d5db;
+
+        --border-color: rgba(255,255,255,0.08);
+
+        --shadow-color: rgba(0,0,0,0.4);
+    }
+
+    /* ===== PAGE BACKGROUND ===== */
+
+    body,
+    .content-wrapper,
+    #content {
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--bg-gradient-1),
+                var(--bg-gradient-2),
+                var(--bg-gradient-3)
+            ) !important;
+
+        color: var(--text-primary) !important;
+    }
+
+    /* ===== CONTENT AREA ===== */
+
+    #content {
+
+        padding: 30px !important;
+
+        border-radius: 24px;
+
+        margin: 20px !important;
+    }
+
+    /* ===== PAGE TITLE ===== */
+
+    .custom-title-wrapper {
+
+        margin-bottom: 28px;
+
+        padding: 24px;
+
+        border-radius: 20px;
+
+        background:
+            rgba(255,255,255,0.05);
+
+        backdrop-filter: blur(14px);
+
+        border:
+            1px solid rgba(255,255,255,0.08);
+
+        box-shadow:
+            0 10px 30px rgba(0,0,0,0.22);
+    }
+
+    .custom-title-wrapper h1 {
+
+        margin: 0;
+
+        font-size: 2.2rem;
+
+        font-weight: 800;
+
+        color: white;
+    }
+
+    .custom-title-wrapper p {
+
+        margin-top: 10px;
+
+        color: var(--text-secondary);
+
+        font-size: 1rem;
+    }
+
+    /* ===== TOOLBAR ===== */
+
+    #toolbar {
+
+        background:
+            rgba(255,255,255,0.05) !important;
+
+        border:
+            1px solid rgba(255,255,255,0.08);
+
+        backdrop-filter: blur(14px);
+
+        border-radius: 18px;
+
+        padding: 18px !important;
+
+        margin-bottom: 22px !important;
+    }
+
+    /* ===== SEARCH INPUT ===== */
+
+    #searchbar {
+
+        background:
+            rgba(17,24,39,0.9) !important;
+
+        border:
+            1px solid rgba(255,255,255,0.08) !important;
+
+        color: white !important;
+
+        border-radius: 12px !important;
+
+        padding: 10px 14px !important;
+
+        min-width: 300px;
+    }
+
+    #searchbar:focus {
+
+        border-color:
+            var(--primary-orange) !important;
+
+        box-shadow:
+            0 0 0 4px rgba(249,115,22,0.14) !important;
+
+        outline: none !important;
+    }
+
+    /* ===== TABLE WRAPPER ===== */
+
+    #changelist {
+
+        background:
+            rgba(255,255,255,0.05);
+
+        border-radius: 22px;
+
+        padding: 22px;
+
+        backdrop-filter: blur(14px);
+
+        border:
+            1px solid rgba(255,255,255,0.08);
+
+        box-shadow:
+            0 10px 30px rgba(0,0,0,0.24);
+    }
+
+    /* ===== TABLE ===== */
+
+    #result_list {
+
+        width: 100%;
+
+        overflow: hidden;
+
+        border-radius: 16px;
+
+        background:
+            rgba(17,24,39,0.65);
+    }
+
+    /* ===== TABLE HEAD ===== */
+
+    #result_list thead th {
+
+        background:
+            linear-gradient(
+                to right,
+                var(--primary-orange),
+                var(--deep-orange)
+            ) !important;
+
+        color: white !important;
+
+        border: none !important;
+
+        font-size: 0.95rem;
+
+        font-weight: 700;
+
+        padding: 16px !important;
+    }
+
+    /* ===== TABLE ROWS ===== */
+
+    #result_list tbody tr {
+
+        background:
+            rgba(31,41,55,0.88) !important;
+
+        transition:
+            background 0.25s ease,
+            transform 0.25s ease;
+    }
+
+    #result_list tbody tr:hover {
+
+        background:
+            rgba(55,65,81,0.92) !important;
+    }
+
+    /* ===== TABLE CELLS ===== */
+
+    #result_list td,
+    #result_list th {
+
+        border-bottom:
+            1px solid rgba(255,255,255,0.06) !important;
+
+        color: var(--text-primary) !important;
+
+        padding: 14px 16px !important;
+    }
+
+    /* ===== LINKS ===== */
+
+    a {
+
+        color:
+            #fb923c !important;
+
+        text-decoration: none !important;
+
+        font-weight: 600;
+    }
+
+    a:hover {
+
+        color: white !important;
+    }
+
+    /* ===== ADD BUTTON ===== */
+
+    .object-tools {
+
+        margin-bottom: 18px !important;
+    }
+
+    .object-tools a.addlink {
+
+        background:
+            linear-gradient(
+                to right,
+                var(--primary-orange),
+                var(--deep-orange)
+            ) !important;
+
+        border: none !important;
+
+        border-radius: 12px !important;
+
+        padding:
+            10px 18px !important;
+
+        color: white !important;
+
+        font-weight: 700 !important;
+
+        box-shadow:
+            0 6px 16px rgba(249,115,22,0.24);
+    }
+
+    .object-tools a.addlink:hover {
+
+        transform:
+            translateY(-2px);
+    }
+
+    /* ===== FILTER SIDEBAR ===== */
+
+    #changelist-filter {
+
+        background:
+            rgba(255,255,255,0.04);
+
+        border:
+            1px solid rgba(255,255,255,0.06);
+
+        border-radius: 18px;
+
+        padding: 18px;
+
+        backdrop-filter: blur(14px);
+    }
+
+    #changelist-filter h2 {
+
+        background: transparent !important;
+
+        color: white !important;
+
+        font-size: 1rem !important;
+
+        font-weight: 700 !important;
+
+        border: none !important;
+    }
+
+    #changelist-filter li a {
+
+        color:
+            var(--text-secondary) !important;
+
+        font-weight: 500;
+    }
+
+    #changelist-filter li.selected a {
+
+        color:
+            var(--primary-orange) !important;
+
+        font-weight: 700;
+    }
+
+    /* ===== PAGINATION ===== */
+
+    .paginator {
+
+        margin-top: 25px !important;
+
+        color:
+            var(--text-secondary) !important;
+    }
+
+    .paginator a {
+
+        background:
+            rgba(255,255,255,0.05);
+
+        padding:
+            8px 14px;
+
+        border-radius: 10px;
+
+        margin:
+            0 3px;
+
+        border:
+            1px solid rgba(255,255,255,0.05);
+    }
+
+    .paginator a:hover {
+
+        background:
+            rgba(249,115,22,0.14);
+    }
+
+    /* ===== CHECKBOX ===== */
+
+    input[type="checkbox"] {
+
+        accent-color:
+            var(--primary-orange);
+    }
+
+    /* ===== SELECT DROPDOWNS ===== */
+
+    select {
+
+        background:
+            rgba(17,24,39,0.92) !important;
+
+        color: white !important;
+
+        border:
+            1px solid rgba(255,255,255,0.08) !important;
+
+        border-radius: 10px !important;
+
+        padding: 8px 12px !important;
+    }
+
+    /* ===== ACTION BAR ===== */
+
+    .actions {
+
+        background:
+            rgba(255,255,255,0.04) !important;
+
+        border:
+            1px solid rgba(255,255,255,0.06);
+
+        border-radius: 14px;
+
+        padding: 14px !important;
+
+        margin-bottom: 18px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+
+    @media (max-width: 768px) {
+
+        #content {
+
+            margin: 10px !important;
+
+            padding: 18px !important;
+        }
+
+        #searchbar {
+
+            min-width: 100%;
+        }
+
+        .custom-title-wrapper h1 {
+
+            font-size: 1.7rem;
+        }
+    }
+
+</style>
+
+{% endblock %}
+
+{% block content_title %}
+
+<div class="custom-title-wrapper">
+
+    <h1>
+        Manage {{ cl.opts.verbose_name_plural|capfirst }}
+    </h1>
+
+    <p>
+        View, edit, create, and manage all records from this control panel.
+    </p>
+
+</div>
+
+{% endblock %}
