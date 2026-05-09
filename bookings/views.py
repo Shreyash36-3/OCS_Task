@@ -7,24 +7,24 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 def login_view(request):
-    # If the user is already logged in, don't make them log in again!
+    #Check if user is already logged in or not
     if request.user.is_authenticated:
         if request.user.is_superuser:
             return redirect('/admin/')
         return redirect('/book/')
 
     if request.method == "POST":
-        # Get what the user typed in the form
+        # Get what the user chose in the form
         u = request.POST.get('username')
         p = request.POST.get('password')
         
-        # Django checks if this is a real user in the database
+        #check is the user is real or not
         user = authenticate(request, username=u, password=p)
         
         if user is not None:
             login(request, user) # This logs them in safely
             
-            # The Routing Logic: Admin vs Normal User
+            # The Routing Logic diffrent for admin and user
             if user.is_superuser:
                 return redirect('/admin/')
             else:
@@ -33,7 +33,6 @@ def login_view(request):
             # Login failed
             return render(request, 'bookings/login.html', {'error': 'Invalid username or password.'})
 
-    # If they just visited the page, show them the blank form
     return render(request, 'bookings/login.html')
 
 def custom_logout_view(request):
@@ -41,19 +40,19 @@ def custom_logout_view(request):
     return redirect('/')
 
 def process_booking_request(user, room_id, req_date, req_start, req_end, req_purpose, req_participants):
-    # 1. Authorization Check
+    #Authorization Check
     if not user.is_authenticated:
         raise ValidationError("You must be logged in to book a room.")
 
-    # 2. Prevent Race Conditions (The Pro Move)
+    # Prevent Race Conditions
     with transaction.atomic():
         room = get_object_or_404(Room.objects.select_for_update(), id=room_id)
 
-        # 3. Capacity Check
+        #Capacity Check
         if req_participants > room.seating_capacity:
             raise ValidationError(f"Error: Room capacity is {room.seating_capacity}.")
 
-        # 4. The Time Conflict Check
+        #The Time Conflict Check
         overlapping_bookings = Booking.objects.filter(
             room=room,
             date=req_date,
@@ -64,7 +63,7 @@ def process_booking_request(user, room_id, req_date, req_start, req_end, req_pur
         if overlapping_bookings.exists():
             raise ValidationError("Conflict: This room is already booked during this time.")
 
-        # 5. If it passes all checks, create the booking!
+        #If it passes all checks, create booking
         new_booking = Booking.objects.create(
             user=user,
             room=room,
@@ -79,7 +78,7 @@ def process_booking_request(user, room_id, req_date, req_start, req_end, req_pur
 
 @login_required(login_url='/') 
 def all_bookings_view(request):
-    # Grabs every booking, ordered by date and time
+    #Grabs every booking, ordered by date and time
     schedule = Booking.objects.all().order_by('date', 'start_time')
     
     context = {
@@ -93,11 +92,11 @@ def book_room_view(request):
     context = {}
 
     if request.method == "POST":
-        # Check which button the user clicked (Search vs Book)
+        # Check which button the user clicked search or book
         action = request.POST.get('action')
 
         if action == 'search':
-            # 1. Extract the search criteria
+            #Extract the search criteria
             req_date = request.POST.get('date')
             req_start = request.POST.get('start_time')
             req_end = request.POST.get('end_time')
@@ -108,19 +107,19 @@ def book_room_view(request):
             except ValueError:
                 req_participants = 1
 
-            # 2. Find rooms with conflicting bookings
+            #Find rooms with conflicting bookings
             conflicting_bookings = Booking.objects.filter(
                 date=req_date,
                 start_time__lt=req_end,
                 end_time__gt=req_start
             ).values_list('room_id', flat=True)
 
-            # 3. Filter rooms: Must have enough capacity AND not be in the conflicting list
+            #Filter rooms: Must have enough capacity AND not be in the conflicting list
             available_rooms = Room.objects.filter(
                 seating_capacity__gte=req_participants
             ).exclude(id__in=conflicting_bookings)
 
-            # 4. Pass the available rooms and the original search data back to the template
+            #Pass the available rooms and the original search data back to the template
             context.update({
                 'available_rooms': available_rooms,
                 'searched': True,
@@ -133,7 +132,6 @@ def book_room_view(request):
 
         elif action == 'book':
             try:
-                # Call the bulletproof engine using the selected room and carried-over data
                 process_booking_request(
                     user=request.user,
                     room_id=request.POST.get('room_id'),
@@ -147,7 +145,6 @@ def book_room_view(request):
             except ValidationError as e:
                 context['error'] = e.message
 
-    # Render the HTML page
     return render(request, 'bookings/book_room.html', context)
 
 @staff_member_required(login_url='/') 
