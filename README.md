@@ -72,25 +72,27 @@ Open your terminal and run:
 ```bash
 git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
 cd YOUR_REPO_NAME
-
+```
 ## 2.Install Dependencies
 
 ```bash
 pip install -r requirements.txt
-
+```
 ## 3.Setup Database
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
-
+```
 ##4.Create a admin account(optional)
 If using a freash database, create an admin account:
 ```bash
 python manage.py createsuperuser
+```
 ##5.Run the Development Server
 Start the Django development server
 ```bash
 python manage.py runserver
+```
 ## 6. Access the application:
 http://127.0.0.1:8000/
