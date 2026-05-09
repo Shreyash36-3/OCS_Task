@@ -70,8 +70,8 @@ Follow these steps to run the project locally.
 Open your terminal and run:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/Shreyash36-3/OCS_Task
+cd OCS_Task
 ```
 ## 2.Install Dependencies
 
